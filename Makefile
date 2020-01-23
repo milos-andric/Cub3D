@@ -48,7 +48,7 @@ re 		:	fclean all
 
 comp	:
 		clear
-		$(CC) $(CFLAGS) main.c libftprintf.a
+		$(CC) $(CFLAGS) main.c $(NAME)
 
 launch	: all comp
 			./a.out

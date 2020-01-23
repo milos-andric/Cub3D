@@ -17,6 +17,23 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <unistd.h>
+# include <stdio.h>
 # include "../srcs/libft/libft.h"
+
+typedef struct	m_struct
+{
+	char	**map;
+	int		*res;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	char	*s;
+	char	f[3];
+	char	c[3];
+}				m_type;
+
+int		ft_read_file(char *f_name);
+int		ft_ext_check(char *str, char *end);
 
 #endif

@@ -15,9 +15,15 @@
 
 int	main(int argc, char **argv)
 {
+	//m_type map;
+
 	if (argc != 2)
 	{
-		ft_putstr("OOOOOOPSIE");
+		ft_putstr("OOOOOPSIEE");
+	}
+	else
+	{
+		ft_read_file(argv[1]);// &map);
 	}
 	return (0);
 }

@@ -1,6 +1,7 @@
 NAME		= libft.a
 
-SRCS		= 	ft_atoi.c					\
+SRCS		= 	get_next_line.c				\
+				ft_atoi.c					\
 				ft_bzero.c					\
 				ft_calloc.c					\
 				ft_isalnum.c				\

@@ -11,9 +11,9 @@
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
-int			ft_getlen(char *str)
+static int		ft_getlen(char *str)
 {
 	int i;
 
@@ -27,7 +27,7 @@ int			ft_getlen(char *str)
 	return (-i);
 }
 
-void		ft_manager(char *buffer, int len, char **line, int *red)
+static void		ft_manager(char *buffer, int len, char **line, int *red)
 {
 	char *temp;
 	char *btemp;
@@ -53,23 +53,23 @@ void		ft_manager(char *buffer, int len, char **line, int *red)
 	}
 }
 
-int			get_next_line(int fd, char **line)
+int				get_next_line(int fd, char **line)
 {
-	static char		buffer[BUFFER_SIZE + 1] = {0};
+	static char		buffer[80 + 1] = {0};
 	static int		red;
 	int				len;
 	int				flag;
 
 	flag = 1;
 	*line = (char *)ft_calloc(1, sizeof(char));
-	if (!ft_strlen(buffer) && !(red = read(fd, buffer, BUFFER_SIZE)))
+	if (!ft_strlen(buffer) && !(red = read(fd, buffer, 80)))
 		flag = 0;
 	buffer[red] = 0;
 	len = ft_getlen(buffer);
 	while ((len < 0) && (red > 0))
 	{
 		ft_manager(buffer, len, line, &red);
-		if ((red = read(fd, buffer, BUFFER_SIZE)) == 0)
+		if ((red = read(fd, buffer, 80)) == 0)
 			flag = 0;
 		buffer[red] = 0;
 		len = ft_getlen(buffer);
