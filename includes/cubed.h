@@ -6,7 +6,7 @@
 /*   By: mandric <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/18 17:29:52 by mandric      #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/18 17:30:16 by mandric     ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 15:23:00 by mandric     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,7 +33,8 @@ typedef struct	m_struct
 	char	c[3];
 }				m_type;
 
-int		ft_read_file(char *f_name);
+int		ft_read_file(char *f_name, m_type map);
 int		ft_ext_check(char *str, char *end);
+
 
 #endif

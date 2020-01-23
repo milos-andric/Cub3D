@@ -23,33 +23,32 @@ INCLUDES	= 	$(LIBFT_PATH)libft.h		\
 				$(INCLUDES_PATH)cubed.h
 
 $(NAME)	:	$(OBJS) $(INCLUDES)
-			$(MAKE) -C $(LIBFT_PATH) bonus
-			cp $(LIBFT_PATH)libft.a $(NAME)
-			ar rc $(NAME) $(OBJS)
+	$(MAKE) -C $(LIBFT_PATH) bonus
+	cp $(LIBFT_PATH)libft.a $(NAME)
+	ar rc $(NAME) $(OBJS)
 
 all		:	 $(NAME) $(INCLUDES)
 
 bonus	:	$(OBJS) $(OBJS_BNS) $(INCLUDES)
-			ar rc $(NAME) $(OBJS) $(OBJS_BNS)
+	ar rc $(NAME) $(OBJS) $(OBJS_BNS)
 
 $(OBJS) : $(INCLUDES)
 
 $(OBJS_BNS) : $(INCLUDES)
 
 clean	:
-			$(MAKE) -C $(LIBFT_PATH) clean
-			rm -f $(OBJS) $(OBJS_BNS)
+	$(MAKE) -C $(LIBFT_PATH) clean
+	rm -f $(OBJS) $(OBJS_BNS)
 
 fclean	:	clean
-			$(MAKE) -C $(LIBFT_PATH) fclean
-			rm -f $(NAME)
+	$(MAKE) -C $(LIBFT_PATH) fclean
+	rm -f $(NAME)
 
 re 		:	fclean all
 
 comp	:
-		clear
-		$(CC) $(CFLAGS) main.c $(NAME)
+	clear
+	$(CC) $(CFLAGS) main.c $(NAME)
 
 launch	: all comp
-			./a.out
-
+	./a.out

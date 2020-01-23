@@ -6,7 +6,7 @@
 /*   By: mandric <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/16 11:26:57 by mandric      #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/20 16:16:44 by mandric     ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 12:54:34 by mandric     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,6 +17,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 
+size_t				ft_strlcpy_gnl(char *dst, const char *src, size_t size);
+char				*ft_strjoin_gnl(char const *s1, char const *s2);
 int					get_next_line(int fd, char **line);
 int					ft_atoi(const char *str);
 void				ft_bzero(void *s, size_t n);

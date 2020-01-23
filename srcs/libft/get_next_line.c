@@ -6,14 +6,14 @@
 /*   By: mandric <mandric@student.le-101.fr>        +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/11/19 11:36:35 by mandric      #+#   ##    ##    #+#       */
-/*   Updated: 2019/12/04 14:16:40 by mandric     ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 14:20:23 by mandric     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		ft_getlen(char *str)
+int			ft_getlen(char *str)
 {
 	int i;
 
@@ -27,33 +27,33 @@ static int		ft_getlen(char *str)
 	return (-i);
 }
 
-static void		ft_manager(char *buffer, int len, char **line, int *red)
+void		ft_manager(char *buffer, int len, char **line, int *red)
 {
 	char *temp;
 	char *btemp;
 
 	if (len < 0)
 	{
-		temp = ft_strjoin(*line, buffer);
+		temp = ft_strjoin_gnl(*line, buffer);
 		free(*line);
 		*line = temp;
 	}
 	else
 	{
 		temp = ft_substr(buffer, 0, len);
-		btemp = ft_strjoin(*line, temp);
+		btemp = ft_strjoin_gnl(*line, temp);
 		free(temp);
 		free(*line);
 		*line = btemp;
 		btemp = ft_substr(buffer, len + 1, ft_strlen(buffer) - len + 1);
-		ft_strlcpy(buffer, btemp, ft_strlen(btemp));
+		ft_strlcpy_gnl(buffer, btemp, ft_strlen(btemp));
 		free(btemp);
 		if (*red)
 			*red = *red - (len + 1);
 	}
 }
 
-int				get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
 	static char		buffer[80 + 1] = {0};
 	static int		red;

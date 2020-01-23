@@ -1,43 +1,27 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   map_parsing.c                                    .::    .:/ .      .::   */
+/*   ft_strlcpy_gnl.c                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: mandric <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2020/01/18 17:55:07 by mandric      #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/23 15:22:49 by mandric     ###    #+. /#+    ###.fr     */
+/*   Created: 2020/01/23 12:46:38 by mandric      #+#   ##    ##    #+#       */
+/*   Updated: 2020/01/23 12:49:48 by mandric     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "../includes/cubed.h"
+#include "libft.h"
 
-int		ft_ext_check(char *str, char *end)
+size_t			ft_strlcpy_gnl(char *dst, const char *src, size_t size)
 {
-	int len;
-	int count;
+	int i;
 
-	len = ft_strlen(str);
-	count = ft_strlen(end);
-	if (len == count)
-		return (0);
-	while ((str[len--] == end[count]) && ((count >= 0) && (len >= 0)))
-		count--;
-	if (count == -1)
-		return (1);
-	else
-		return (0);
+	i = -1;
+	while (src[++i] && (--size + 1))
+		dst[i] = src[i];
+	dst[i] = '\0';
+	while (src[i])
+		i++;
+	return ((size_t)i);
 }
-/*
-int		ft_getmap_specs(int fd, m_type *map)
-{
-	int ret;
-
-	ret = 1;
-	while(ret)
-	{
-		
-	}
-}
-*/

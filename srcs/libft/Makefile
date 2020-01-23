@@ -1,6 +1,8 @@
 NAME		= libft.a
 
 SRCS		= 	get_next_line.c				\
+				ft_strjoin_gnl.c			\
+				ft_strlcpy_gnl.c			\
 				ft_atoi.c					\
 				ft_bzero.c					\
 				ft_calloc.c					\

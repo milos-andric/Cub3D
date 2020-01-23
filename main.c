@@ -6,7 +6,7 @@
 /*   By: mandric <marvin@le-101.fr>                 +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2020/01/20 15:20:16 by mandric      #+#   ##    ##    #+#       */
-/*   Updated: 2020/01/20 16:21:39 by mandric     ###    #+. /#+    ###.fr     */
+/*   Updated: 2020/01/23 15:23:09 by mandric     ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -15,7 +15,7 @@
 
 int	main(int argc, char **argv)
 {
-	//m_type map;
+	m_type map;
 
 	if (argc != 2)
 	{
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 	}
 	else
 	{
-		ft_read_file(argv[1]);// &map);
+		ft_read_file(argv[1], &map);
 	}
 	return (0);
 }
