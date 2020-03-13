@@ -1,6 +1,26 @@
-1 1 1 1 1 1
-1 0 0 0 0 1
-1 0 0 0 0 1
-1 0 0 0 0 1
-1 0 0 0 0 1
-1 1 1 1 1 1
+EA ./textures/tex_East.xpm
+
+SO ./textures/tex_South.xpm
+
+NO ../../Desktop/rmazars.xpm
+WE ./textures/tex_West.xpm
+
+S ./textures/tex_Sprite.xpm
+
+R 1920 1080
+F 220,100,6
+C 225,30,5
+
+1 1 1 1 1 1 1 
+1 0 0 0 0 0 1
+1 0 1 0 0 2 1 
+1 0 1 0 0 0 1 
+1 0 1 0 0 0 1 
+1 0 0 0 0 1 1 
+1 1 1 0 0 0 1 
+1 1 1 0 0 0 1 
+1 0 1 0 0 0 1 
+1 0 0 0 0 0 1 
+1 1 1 0 N 0 1 
+1 1 1 0 0 0 1 
+1 1 1 1 1 1 1 
