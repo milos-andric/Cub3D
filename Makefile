@@ -1,84 +1,115 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mandric <mandric@student.le-101.fr>        +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2020/02/06 16:37:16 by mandric           #+#    #+#              #
-#    Updated: 2020/03/06 15:31:00 by mandric          ###   ########lyon.fr    #
-#                                                                              #
-# **************************************************************************** #
+NAME =		Cub3D
 
+SRCSPATH =	srcs/
+DEBUGPATH =	debug/
+INCPATH =	includes/
 
-#	Makefile	#
+#---------  LIBS --
+MINILIB =	$(INCPATH)MiniLib/
+LIBFT =		$(INCPATH)Libft/
 
-NAME		= cubed.a
+#---------	INCLUDES --
+INCLUDES =	$(INCPATH)cube3d.h \
+			$(INCPATH)my_canvas.h \
+			$(INCPATH)map.h \
+			$(INCPATH)player.h \
+			$(INCPATH)Gnl/get_next_line.h \
+			$(LIBFT)includes/libft.h \
+			\
+			$(MINILIB)mlx.h \
+			\
+			$(DEBUGPATH)debug.h\
+			$(DEBUGPATH)debug_defines.h
 
-EXEC		= cub3D
+#--------	SRCS --
+SRCS = 		main.c \
+			$(SRCSPATH)Canvas/draw_line.c \
+			$(SRCSPATH)Canvas/rect.c \
+			$(SRCSPATH)Canvas/circle.c \
+			$(SRCSPATH)Canvas/text.c \
+			$(SRCSPATH)Canvas/context.c \
+			$(SRCSPATH)Map/map_parsing.c \
+			$(SRCSPATH)Map/draw_map.c \
+			$(SRCSPATH)wall_detect.c \
+			$(SRCSPATH)floor_detect.c \
+			$(SRCSPATH)sprites.c \
+			$(SRCSPATH)flag_get.c \
+			$(SRCSPATH)keys.c \
+			$(SRCSPATH)Player/player.c \
+			$(SRCSPATH)Player/move.c \
+			$(SRCSPATH)meditate.c \
+			$(SRCSPATH)textures.c \
+			$(DEBUGPATH)debug.c
 
-SRCS		= 	srcs/init/ft_cubed.c
-SRCS		+= 	srcs/init/parsing.c
-SRCS		+= 	srcs/init/ft_getmap.c
-SRCS		+= 	srcs/init/ft_check_map.c
-SRCS		+= 	srcs/init/ft_utilities.c
-SRCS		+= 	srcs/init/ft_flags.c
-SRCS		+= 	srcs/init/ft_error.c
+GNL_SRCS =	$(INCPATH)Gnl/get_next_line.c \
+			$(INCPATH)Gnl/get_next_line_utils.c
 
-SRCS		+= 	srcs/graph/ft_util.c
-SRCS		+= 	srcs/graph/ft_draw_line.c
-SRCS		+= 	srcs/graph/ft_draw_square.c
-SRCS		+= 	srcs/graph/ft_mlx.c
-SRCS		+= 	srcs/graph/ft_porcelain.c
-SRCS		+= 	srcs/graph/ft_raycast.c
-SRCS		+= 	srcs/graph/ft_texture.c
+GNL_OBJS =	${GNL_SRCS:.c=.o}
 
-OBJS	= 	${SRCS:.c=.o}
+CC =		gcc
 
-OBJS_BNS	= 	${SRCS_BNS:.c=.o}
+CFLAGSPROD	= -g -Wall -Wextra -Werror
+CFLAGS	= 
+CFLAGSSAN	= -g -g3 -fsanitize=address
 
-CC		=	gcc  
+OBJS = ${SRCS:.c=.o}
 
-CFLAGS	= 	-Wall -Werror -Wextra -fsanitize=address -g3
+MAPS	= assets/maps/
+LAB = $(MAPS)Lab.cub
+WORLD = $(MAPS)world.cub
+MAP = $(MAPS)map.cub
+EMPTY = $(MAPS)empty.cub
+MINE = $(MAPS)Mine.cub
+NEW = $(MAPS)new_parse.cub
+PAC = $(MAPS)pacman.cub
 
-MAKE	=	make
+COL_TITLE = \033[2;33m
+COL_CUBE = \033[2;32m
+COL_TXT = \033[0;36m
+COL_SHADOW = \033[2;36m
 
-INCLUDES_PATH = ./includes/
+all:		$(NAME)
 
-LIBFT_PATH	= ./srcs/libft/
+$(NAME):	$(OBJS) $(INCLUDES)
+			make -C $(MINILIB)
+			make -C $(LIBFT)
+			gcc -c $(GNL_SRCS) -D BUFFER_SIZE=400
+			mv $(MINILIB)libmlx.a .
+			mv $(LIBFT)libft.a .
+			ar rc $(NAME).a $(OBJS) get_next_line.o get_next_line_utils.o
 
-INCLUDES	= 	$(LIBFT_PATH)libft.h		\
-				$(INCLUDES_PATH)cubed.h
+comp:		all
+			gcc $(CFLAGS) main.c $(NAME).a libft.a libmlx.a -o $(NAME) -framework OpenGL -framework AppKit
 
-$(NAME)	:	$(OBJS) $(INCLUDES)
-	$(MAKE) -C $(LIBFT_PATH) bonus
-	cp $(LIBFT_PATH)libft.a $(NAME)
-	cp minilibx/libmlx.a $(NAME)
-	ar rc $(NAME) $(OBJS)
-	$(CC) $(CFLAGS) main.c $(NAME) $(LIBFT_PATH)libft.a -framework OpenGL -framework AppKit -o $(EXEC)
+launch:		comp
+			clear
+			@echo "$(COL_CUBE)  .–––––––––––––––––––––––––––––––––––––––––––––––––––––––––.	"
+			@echo " / |                     $(COL_TITLE)Launching$(COL_CUBE)                          | \	"
+			@echo "+––+––––––––––––––––––––––––––––––––––––––––––––––––––––––––+––+"
+			@echo "|  |$(COL_TXT)             _____       _       _____ ____$(COL_CUBE)             |  |"
+			@echo "|  |$(COL_TXT)            /  __ \     | |     |____ |  _  \ $(COL_CUBE)          |  |"
+			@echo "|  |$(COL_TXT)           |  /  \/_   _| |__       / / | | |$(COL_CUBE)           |  |"
+			@echo "|  |$(COL_TXT)           |  |   | | | | |_ \      \ \ | | |$(COL_CUBE)           |  |"
+			@echo "|  |$(COL_TXT)           |  \__/\ |_| | |_) | ____/ / |_/ /$(COL_CUBE)           |  |"
+			@echo "|  |____________$(COL_TXT)\_____/\____|____/  \____/|____/ $(COL_CUBE)___________|  |"
+			@echo "| / $(COL_SHADOW)           /////// /////////     \\\\\\\\\\\\\\\\\\\ \\\\\\\\\\\\\\\\\\\\\\\\$(COL_CUBE)            \ |"
+			@echo "+––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––+\033[0m"
+			@./$(NAME) $(NEW)
 
-all		:	 $(NAME) $(INCLUDES)
+minilib:	
+			@make -C $(MINILIB)
 
-bonus	:	$(OBJS) $(OBJS_BNS) $(INCLUDES)
-	ar rc $(NAME) $(OBJS) $(OBJS_BNS)
+libft:
+			@make -C $(LIBFT) re
 
-$(OBJS) : $(INCLUDES)
+$(OBJS):	$(INCLUDES)
 
-$(OBJS_BNS) : $(INCLUDES)
+clean:
+			${RM} $(OBJS) get_next_line.o get_next_line_utils.o
 
-clean	:
-	$(MAKE) -C $(LIBFT_PATH) clean
-	rm -f $(OBJS) $(OBJS_BNS)
+fclean:		clean
+			${RM} $(NAME).a $(NAME) libft.a libmlx.a
 
-fclean	:	clean
-	$(MAKE) -C $(LIBFT_PATH) fclean
-	rm -f $(NAME)
+re:			fclean all
 
-re 		:	fclean all
-
-comp	:
-	clear
-	$(CC) $(CFLAGS) main.c $(NAME)
-
-launch	: all comp
-	./a.out test.cub
+.PHONY: clear
