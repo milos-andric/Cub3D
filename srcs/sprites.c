@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: siferrar <siferrar@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: milosandric <milosandric@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 08:02:21 by siferrar          #+#    #+#             */
-/*   Updated: 2020/04/10 15:54:31 by siferrar         ###   ########lyon.fr   */
+/*   Updated: 2020/04/13 17:52:27 by milosandric      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,26 @@ void	add_spr_to_list(t_spr_list *s_list, t_sprite *s)
 	dprintf(1, GRN"Add spr to list OK\n"RST);
 }
 
+void    swap_sprite(t_spr_list *lst_sprt, int num1, int num2)
+{
+	if((num1 < lst_sprt->length) && (num2 < lst_sprt->length) && (num1 != num2))
+	{
+		t_sprite temp;
+		t_sprite *spr_a;
+		t_sprite *spr_b;
+
+		spr_a = lst_sprt->list[num1];
+		spr_b = lst_sprt->list[num2];
+		temp.dist = spr_a->dist;
+		temp.pos = spr_a->pos;
+		spr_a->dist = spr_b->dist;
+		spr_a->pos = spr_b->pos;
+		spr_b->dist = temp.dist;
+		spr_b->pos = temp.pos;
+	}
+}
+
+
 void	disp_sprites(t_spr_list *s_list)
 {
 	int			i;
@@ -152,4 +172,42 @@ void	draw_sprite(void *brain, t_sprite *s, float col)
 		pixel_put(col, y, color, b->map->frame);
 		y++;
 	}
+}
+
+void    sort_sprites(t_fpoint *pos, t_spr_list *lst_sprt)
+{
+	float dist1;
+	float dist2;
+	int i;
+	int j;
+
+	i = 0;
+	dprintf(1, CYAN"Order Sprites\n"RST);
+	while (i < lst_sprt->length)
+	{
+		j = i;
+		while (j < lst_sprt->length)
+		{
+			dist1 = calc_dist(*pos, lst_sprt->list[i]->pos);
+			dist2 = calc_dist(*pos, lst_sprt->list[j]->pos);
+			lst_sprt->list[i]->dist = dist1;
+			lst_sprt->list[j]->dist = dist2;
+			dprintf(1, "%f vs %f\n", dist1, dist2);
+			if (dist1 > dist2)
+			{
+				dprintf(1, "Swap [%d] and [%d]\n", i, j);
+				disp_sprite(lst_sprt->list[i]);
+				disp_sprite(lst_sprt->list[j]);
+				swap_sprite(lst_sprt, i, j);
+			}
+			j++;
+		}
+		i++;
+	}
+	dprintf(1, CYAN"Order Sprites OK\n"RST);
+}
+
+void	update_sprite(t_brain *b)
+{
+	sort_sprites(b->player->pos, b->map->sprites);
 }

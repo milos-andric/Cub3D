@@ -6,7 +6,7 @@
 /*   By: milosandric <milosandric@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 21:30:44 by siferrar          #+#    #+#             */
-/*   Updated: 2020/04/12 21:22:07 by milosandric      ###   ########lyon.fr   */
+/*   Updated: 2020/04/13 16:45:32 by milosandric      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,4 +176,7 @@ int				ft_strmultichr(char *str, char *chrlst);
 int				ft_ext_check(char *str, char *end);
 void			ft_init_t_type(t_type *map);
 void			exit_flag(int err_num, char *str, t_type *map);
+void			update_sprite(t_brain *b);
+void    		sort_sprites(t_fpoint *pos, t_spr_list *lst_sprt);
+
 #endif

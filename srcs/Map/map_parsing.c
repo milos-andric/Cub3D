@@ -6,7 +6,7 @@
 /*   By: milosandric <milosandric@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 20:36:43 by siferrar          #+#    #+#             */
-/*   Updated: 2020/04/13 16:18:22 by milosandric      ###   ########lyon.fr   */
+/*   Updated: 2020/04/13 16:33:47 by milosandric      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ int				open_map(t_brain *b, char *map_path, t_type *map)
 	}
 	close(file);
 	disp_sprites(b->map->sprites);
+	sort_sprites(b->player->pos, b->map->sprites);
 	dprintf(1, DCYAN"	-> Width: [%d]\n", b->map->width);
 	dprintf(1, "	-> Height:[%d]\n\n"RST, b->map->height);
 	print_map_grid((b->map));
