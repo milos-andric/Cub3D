@@ -6,7 +6,7 @@
 /*   By: milosandric <milosandric@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 21:30:44 by siferrar          #+#    #+#             */
-/*   Updated: 2020/04/10 17:05:04 by milosandric      ###   ########lyon.fr   */
+/*   Updated: 2020/04/12 21:22:07 by milosandric      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,9 +162,9 @@ void			disp_brain(t_brain *b);
 
 void			ft_getmap_flag(int fd, t_type *map);
 void			ft_getmap_values(char *line, t_type *map);
-void			ft_flag_str(char *str, char **target);
-void			ft_flag_color(char *str, int *target);
-void			ft_flag_res(char *str, int *target);
+void			ft_flag_str(char *str, char **target, t_type *map);
+void			ft_flag_color(char *str, int *target, t_type *map);
+void			ft_flag_res(char *str, int *target, t_type *map);
 char			*ft_str_search(char *str, char *chrs);
 void			ft_check_struct(t_type *map);
 
@@ -174,7 +174,6 @@ void			ft_check_struct(t_type *map);
 
 int				ft_strmultichr(char *str, char *chrlst);
 int				ft_ext_check(char *str, char *end);
-void			ft_exit_message_basic(char *message);
 void			ft_init_t_type(t_type *map);
-
+void			exit_flag(int err_num, char *str, t_type *map);
 #endif
