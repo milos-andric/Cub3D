@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sprites.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: milosandric <milosandric@student.42lyon    +#+  +:+       +#+        */
+/*   By: siferrar <siferrar@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 08:02:21 by siferrar          #+#    #+#             */
-/*   Updated: 2020/04/18 15:40:28 by milosandric      ###   ########lyon.fr   */
+/*   Updated: 2020/04/18 22:43:07 by siferrar         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ t_sprite   *init_sprite(t_map *m, t_fpoint pos, int type)
 	if (!(s = malloc(sizeof(t_sprite))))
 		return (NULL);
 	s->pos = pos;
-	s->pos.x = pos.x * m->bloc_size;
-	s->pos.y = pos.y * m->bloc_size;
+	s->pos.x = pos.x * m->bloc_size + m->bloc_size/2;
+	s->pos.y = pos.y * m->bloc_size + m->bloc_size/2;
 	s->model = NULL;
 	s->on_screen = 0;
 	init_texture(b, "./assets/sprites/barrel.xpm", &s->model);
@@ -143,38 +143,65 @@ void	draw_sprite(void *brain, t_sprite *s, float col)
 	t_fpoint	ratio;
 	double		dist;
 	double		angle;
-	double		start_y;
+	int		start_y;
+	int		start_x;
 	int			color;
 	int			y;
+	int x;
 	int			texture_col;
-
+	int			col_ratio;
 	b = (t_brain *)brain;
-	/*
+	
 	dist = calc_dist(*b->player->pos, s->pos);
 
 	s_dist.x = s->pos.x - b->player->pos->x;
 	s_dist.y = s->pos.y - b->player->pos->y;
 	
-	s_size.x = s->model->width * b->ctx->width / dist;
-	s_size.y = s->model->height * b->ctx->height / dist;
+	//col_ratio = 
+	s_size.x = s->model->width * (b->ctx->width / s->dist);
+	s_size.y = s->model->height * (b->ctx->height / s->dist);
 
 	angle = atan2(s_dist.y, s_dist.x);
-	angle = b->player->angle - angle;
-	*/
-	dist = s->dist;
-	s_size.x = 72;
-	s_size.y = 72;
-	start_y = (b->ctx->height / 2) * (1 + (1 / dist)) - s_size.y;
+	angle = ft_indeg(to_360(b->player->angle - angle));
+	
+	dprintf(1, "Angle: %f\n", angle);
+	col = b->ctx->width / ft_indeg(b->player->cam->fov);
+	dprintf(1, "col_ratio: %f\n", col);
+	dprintf(1, "Draw sprite\n");
+	ft_putstr("s_size: ");
+	disp_point(&s_size);
+	if (angle >= 0 && angle < 180)
+		start_x = b->ctx->width / 2 - (col * angle);
+	else if (angle < 360)
+		start_x = b->ctx->width / 2 + (col * (360 - angle));
+
+	start_y = (int)floor(b->ctx->height / 2) - s_size.y/2;
+	
+	dprintf(1, "start [%d][%d]\n", start_x, start_y);
 	//start_y = 1;
-	ratio.x = s_size.x / b->map->bloc_size;
-	ratio.y = s_size.y / b->map->bloc_size;
+	ratio.x = s->model->width / s_size.x;
+	ratio.y = s->model->height / s_size.y;
+	dprintf(1, "ratio [%f][%f]\n", ratio.x, ratio.y);
 
-	while (y < s_size.y)
+	/*s_size.x = 10;
+	s_size.y = 10;*/
+
+	x = 0;
+	int transp = pixel_get(s->model, 2, 2);
+	while (x < s_size.x)
 	{
-		color = pixel_get(s->model, col * ratio.x, y * ratio.y);
-
-		pixel_put(col, y, color, b->map->frame);
-		y++;
+		y = 0;
+		while (y < s_size.y)
+		{
+			color = pixel_get(s->model, x * ratio.x, y * ratio.y);
+			//color = 0xFF0000;
+			
+			if (color != 0x980088)
+				if (start_x + x > 0 && start_x + x < b->ctx->width)
+					pixel_put(start_x + x, start_y + y, color, b->map->frame);
+			y++;
+		}
+		x++;
 	}
 }
 
@@ -243,11 +270,10 @@ void	update_sprite(t_brain *b)
 	
 	i = 0;
 	sort_sprites(b->player->pos, b->map->sprites);
-	deg_sprite(b->player, b->map->sprites);
-	/*while(i < b->map->sprites->length)
+	//deg_sprite(b->player, b->map->sprites);
+	while(i < b->map->sprites->length)
 	{
-		if(b->map->sprites->list[i]->on_screen)
-			b->ctx->rect();
+		draw_sprite(b, b->map->sprites->list[i], 0);
 		i++;
-	}*/
+	}
 }
