@@ -6,7 +6,7 @@
 /*   By: milosandric <milosandric@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/14 22:46:16 by siferrar          #+#    #+#             */
-/*   Updated: 2020/04/13 17:03:17 by milosandric      ###   ########lyon.fr   */
+/*   Updated: 2020/04/17 17:53:37 by milosandric      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ typedef struct      s_sprite
 {
 	t_fpoint		pos;
 	int				type;
+	float			deg;
+	int				on_screen;
 	t_buff			*model;
 	float			dist;
 
@@ -27,6 +29,7 @@ typedef struct      s_sprite
 
 typedef struct	s_spr_list
 {
+	int			*column;
 	int			length;
 	t_sprite	**list;
 }				t_spr_list;

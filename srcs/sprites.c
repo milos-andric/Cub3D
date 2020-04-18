@@ -6,7 +6,7 @@
 /*   By: milosandric <milosandric@student.42lyon    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 08:02:21 by siferrar          #+#    #+#             */
-/*   Updated: 2020/04/13 17:52:27 by milosandric      ###   ########lyon.fr   */
+/*   Updated: 2020/04/18 15:40:28 by milosandric      ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_sprite   *init_sprite(t_map *m, t_fpoint pos, int type)
 	s->pos.x = pos.x * m->bloc_size;
 	s->pos.y = pos.y * m->bloc_size;
 	s->model = NULL;
+	s->on_screen = 0;
 	init_texture(b, "./assets/sprites/barrel.xpm", &s->model);
 	s->type = 2;
 	s->next = NULL;
@@ -148,7 +149,7 @@ void	draw_sprite(void *brain, t_sprite *s, float col)
 	int			texture_col;
 
 	b = (t_brain *)brain;
-	
+	/*
 	dist = calc_dist(*b->player->pos, s->pos);
 
 	s_dist.x = s->pos.x - b->player->pos->x;
@@ -159,9 +160,12 @@ void	draw_sprite(void *brain, t_sprite *s, float col)
 
 	angle = atan2(s_dist.y, s_dist.x);
 	angle = b->player->angle - angle;
-	
+	*/
+	dist = s->dist;
+	s_size.x = 72;
+	s_size.y = 72;
 	start_y = (b->ctx->height / 2) * (1 + (1 / dist)) - s_size.y;
-	start_y = 1;
+	//start_y = 1;
 	ratio.x = s_size.x / b->map->bloc_size;
 	ratio.y = s_size.y / b->map->bloc_size;
 
@@ -196,8 +200,8 @@ void    sort_sprites(t_fpoint *pos, t_spr_list *lst_sprt)
 			if (dist1 > dist2)
 			{
 				dprintf(1, "Swap [%d] and [%d]\n", i, j);
-				disp_sprite(lst_sprt->list[i]);
-				disp_sprite(lst_sprt->list[j]);
+				//disp_sprite(lst_sprt->list[i]);
+				//disp_sprite(lst_sprt->list[j]);
 				swap_sprite(lst_sprt, i, j);
 			}
 			j++;
@@ -207,7 +211,43 @@ void    sort_sprites(t_fpoint *pos, t_spr_list *lst_sprt)
 	dprintf(1, CYAN"Order Sprites OK\n"RST);
 }
 
+float	deg_sprite(t_player *ply, t_spr_list *spr)
+{
+	float angle;
+	t_fpoint s_dist;
+	int i;
+	
+	i = 0;
+	while(i < spr->length)
+	{
+		s_dist.x = spr->list[i]->pos.x - ply->pos->x;
+		s_dist.y = spr->list[i]->pos.y - ply->pos->y;
+		angle = atan2(s_dist.y, s_dist.x);
+		angle = to_360(ply->angle - angle);	
+		dprintf(1, "%f\t%f\n", ply->pos->x, ply->pos->y);
+		dprintf(1, "angle : %f\n", ft_indeg(angle));
+		spr->list[i]->deg = ft_indeg(angle);
+		if((spr->list[i]->deg > (360 - ft_indeg(ply->cam->fov / 2))) 
+			|| (spr->list[i]->deg < ft_indeg(ply->cam->fov / 2))) // a opti
+			spr->list[i]->on_screen = 1;
+		else
+			spr->list[i]->on_screen = 0;
+		dprintf(1, "on_scr : %d\n", spr->list[i]->on_screen);
+		i++;
+	}
+}
+
 void	update_sprite(t_brain *b)
 {
+	int i;
+	
+	i = 0;
 	sort_sprites(b->player->pos, b->map->sprites);
+	deg_sprite(b->player, b->map->sprites);
+	/*while(i < b->map->sprites->length)
+	{
+		if(b->map->sprites->list[i]->on_screen)
+			b->ctx->rect();
+		i++;
+	}*/
 }
