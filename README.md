@@ -26,7 +26,6 @@
 
 ![Cube3D Minimap expanded](/images/minimap.png)
 
-![Cube3D Screenshot](/images/Bugs/sprites.png)
 
 	————————————————————————————————————
 		Changes:
@@ -65,6 +64,7 @@
 	- Bad start_y
 	- Streched textures
 	- Sprite is cropped sometimes
+![Cube3D Screenshot](/images/Bugs/sprites.png)
 
 	Floor Casting
 	- Floor texture move badly sometimes
